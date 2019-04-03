@@ -26,8 +26,10 @@ class TokenType(Enum):
     LESS =          16
     LESS_EQUAL =    18
 
+    #Literals
+    STRING_LITERAL =       19
     #eoF
-    EOF =           19
+    EOF =           20
 
 class Token:
     type = 0
@@ -46,5 +48,5 @@ class Token:
 
     def __str__(self):
         if(self.literal):
-            return 'Token-Literal {} : {} line {}'.format(self.type.name, self.literal, self.line)
+            return '{} line {} : {}'.format(self.type.name, self.line, self.literal)
         return 'Token {} line {}'.format(self.type.name, self.line)
