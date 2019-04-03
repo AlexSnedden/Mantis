@@ -1,11 +1,10 @@
-""" classes to represent tokens """
-
 from enum import Enum
 
 class TokenType(Enum):
     def __str__(self):
         return str(self.value)
-
+    #eoF
+    EOF =           0
     # single character
     LEFT_PAREN =    1
     RIGHT_PAREN =   2
@@ -28,8 +27,29 @@ class TokenType(Enum):
 
     #Literals
     STRING_LITERAL =       19
-    #eoF
-    EOF =           20
+    NUMERIC_LITERAL =      20
+
+    #KeyWords
+    AND =                  21
+    OR =                   22
+    NOT =                  23
+
+    IF =                   24
+    WHILE =                25
+
+    #identifiers
+    FUNCTION =             26
+    VARIABLE =             27
+
+keyword_lexemes = {'and':TokenType.AND, 'or':TokenType.OR, 'not':TokenType.NOT,
+                   'if':TokenType.IF, 'while':TokenType.WHILE}
+
+keyword_alphabet = '&|andnotorifwhile'
+
+def is_identifer_character(char):
+    if(char.isalpha() or char == '_' or char in '1234567890'):
+        return True
+    return False
 
 class Token:
     type = 0
@@ -47,6 +67,13 @@ class Token:
         return self.type
 
     def __str__(self):
-        if(self.literal):
-            return '{} line {} : {}'.format(self.type.name, self.line, self.literal)
-        return 'Token {} line {}'.format(self.type.name, self.line)
+        if(self.type == TokenType.STRING_LITERAL):
+            return 'string: {}'.format(self.literal)
+        elif(self.type == TokenType.NUMERIC_LITERAL):
+            return 'numerical: {}'.format(self.literal)
+        elif(self.type == TokenType.VARIABLE):
+            return 'variable: {}'.format(self.lexeme)
+        elif(self.type == TokenType.FUNCTION):
+            return 'function: {}'.format(self.lexeme)
+        else:
+            return '{}'.format(self.type.name)
